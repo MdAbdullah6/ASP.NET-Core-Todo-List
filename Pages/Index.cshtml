@@ -1,0 +1,53 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<div class="container d-flex justify-content-center align-items-center my-5">
+    <div class="card shadow-lg border-0 rounded-4 p-4" style="max-width: 500px; width: 100%; background-color: #ffffff;">
+        <div class="card-body">
+            <!-- Header -->
+            <div class="text-center mb-4">
+                <h2 class="fw-bold text-primary mb-1">My To-Do List</h2>
+                <p class="text-muted small">Stay organized and get things done!</p>
+            </div>
+
+            <!-- Form to Add New Task -->
+            <form method="post" asp-page-handler="Add" class="input-group mb-4">
+                <input type="text"
+                       asp-for="NewTask"
+                       class="form-control form-control-lg border-end-0 rounded-start-3 fs-6"
+                       placeholder="What needs to be done?"
+                       required />
+                <button type="submit" class="btn btn-primary btn-lg rounded-end-3 px-4 fs-6 fw-semibold">
+                    + Add
+                </button>
+            </form>
+
+            <!-- Task List -->
+            <ul class="list-group list-group-flush border-top pt-3">
+                @if (IndexModel.TodoList.Count == 0)
+                {
+                    <li class="list-group-item text-center text-muted border-0 py-4 fs-6">
+                        ✨ No tasks yet! Enjoy your free time.
+                    </li>
+                }
+                else
+                {
+                    @for (int i = 0; i < IndexModel.TodoList.Count; i++)
+                    {
+                        <li class="list-group-item d-flex justify-content-between align-items-center border-0 rounded-3 mb-2 px-3 py-2 bg-light">
+                            <span class="fw-medium text-dark">@IndexModel.TodoList[i]</span>
+                            <form method="post" asp-page-handler="Delete" asp-route-index="@i" class="m-0">
+                                <button type="submit" class="btn btn-outline-danger btn-sm border-0 rounded-circle p-2" title="Delete Task">
+                                    🗑️
+                                </button>
+                            </form>
+                        </li>
+                    }
+                }
+            </ul>
+        </div>
+    </div>
+</div>
